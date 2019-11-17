@@ -9,7 +9,7 @@ describe('authorization', () => {
     test('find user by username and receive user object', async () => {
       const username = 'Bill';
       const user = await findBy(username)
-      console.log(user)
+      // console.log(user)
       expect(user.username).toBe('Bill')
       expect(user.last_name).toBe('Bill')
       expect(user.first_name).toBe('Bill')
@@ -26,7 +26,7 @@ describe('authorization', () => {
         username: 'Bill',
         last_name: 'Bill',
         first_name: 'Bill',
-        password: 'Bill',
+        password: '$2b$10$FqLjG/OE3j2DMLByNRjcE.5/rjPWeqCw99Y0ExnIRSDZeafwQPnru',
         role: 'volunteer'
       })
       const user = await db('users')
