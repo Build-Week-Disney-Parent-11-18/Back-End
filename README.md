@@ -17,3 +17,15 @@ As a parent with small children, would you like to make your Disney Experience m
  - PostgreSQL
  - Jest
  - Supertest
+
+ _REQUESTMODEL_
+  - POST
+  - UPDATE
+    - FOUND MATCH (BOOLEAN)
+  - DELETE
+  
+
+ _COMMENTMODEL_
+  - POST
+  - UPDATE
+  - DELETE

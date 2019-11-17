@@ -20,7 +20,19 @@ module.exports = {
   },
 
   testing: {
-
+    client: 'pg',
+    useNullAsDefault: true,
+    connection:{
+      database: process.env.DB_DEV_TEST_DATABASE,
+      user: process.env.DB_DEV_USERNAME,
+      password: process.env.DB_DEV_PASSWORD
+    },
+    migrations: {
+      directory: './data/migrations'
+    },
+    seeds: {
+      directory: './data/seeds'
+    }
   },
 
   staging: {

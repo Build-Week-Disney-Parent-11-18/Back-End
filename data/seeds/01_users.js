@@ -1,4 +1,4 @@
-const users = [
+exports.const = users = [
   {
     username: 'LCoffelt', // 1
     last_name:  'Coffelt',
@@ -44,3 +44,4 @@ exports.seed = function(knex) {
       return knex('users').insert(users);
     });
 };
+

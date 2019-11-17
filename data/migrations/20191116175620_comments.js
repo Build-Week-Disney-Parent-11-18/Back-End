@@ -9,14 +9,14 @@ exports.up = function(knex) {
       .references('id')
       .inTable('users')
       .onUpdate('CASCADE')
-      .onDelete('RESTRICT')
+      .onDelete('SET NULL')
 
     table
       .integer('request_id')
       .references('id')
       .inTable('requests')
       .onUpdate('CASCADE')
-      .onDelete('RESTRICT')
+      .onDelete('SET NULL')
 
     table
       .varchar('comment', 255).notNullable();
