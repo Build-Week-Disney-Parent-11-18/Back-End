@@ -15,7 +15,7 @@ exports.up = function(knex) {
       .varchar('meeting_place').notNullable();
 
     table
-      .time('meeting_time', {precision: 6}).notNullable();
+      .time('meeting_time', {precision: 0}).notNullable().defaultTo(knex.fn.now(0));
 
     table
       .integer('number_of_kids').notNullable();
