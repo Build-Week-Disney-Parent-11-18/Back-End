@@ -31,8 +31,8 @@ As a parent with small children, would you like to make your Disney Experience m
   - DELETE
 
 ### LEFT OFF
-- request and comments
-  - models and routers
+- ✅ request and comments
+  - ✅ models and routers
 - deployment to heroku using pg
   - reminder: there's an ah and tk video for this
 - note endpoints
