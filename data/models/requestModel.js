@@ -2,6 +2,7 @@ const db = require('../dbConfig');
 
 module.exports = {
   find,
+  findUsers,
   findById,
   findUserById,
   add,
@@ -12,6 +13,10 @@ module.exports = {
 // GET ALL REQUESTS FOR SEARCH
 function find() { // ✅TESTED
   return db('requests');
+}
+
+function findUsers() {
+  return db('users');
 }
 
 // GET SPECIFIED REQUEST BY REQUEST ID
