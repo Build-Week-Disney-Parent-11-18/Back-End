@@ -1,15 +1,18 @@
 
 exports.up = function(knex) {
-  return knex.schema.createTable('requests', table => {
+  return knex.schema
+  
+  .createTable('requests', table => {
     table
       .increments();
 
     table
       .integer('user_id')
+      .unsigned()
       .references('id')
       .inTable('users')
       .onUpdate('CASCADE')
-      .onDelete('SET NULL')
+      .onDelete('CASCADE')
 
     table
       .varchar('meeting_place').notNullable();

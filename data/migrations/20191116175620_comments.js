@@ -6,17 +6,21 @@ exports.up = function(knex) {
 
     table
       .integer('user_id')
+      .unsigned()
       .references('id')
       .inTable('users')
       .onUpdate('CASCADE')
-      .onDelete('SET NULL')
+      .onDelete('CASCADE')
+      // .dropForeign('id')
 
     table
       .integer('request_id')
+      .unsigned()
       .references('id')
       .inTable('requests')
       .onUpdate('CASCADE')
-      .onDelete('SET NULL')
+      .onDelete('CASCADE')
+      // .dropForeign('id')
 
     table
       .varchar('comment', 255).notNullable();
