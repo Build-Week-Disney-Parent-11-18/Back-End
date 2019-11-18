@@ -28,6 +28,17 @@ router.get('/requests', (req, res) => {
     })
 })
 
+// GET USERS
+router.get('/users', (req, res) => {
+  requestDB.findUsers()
+    .then(users => {
+      res.status(200).json(users)
+    })
+    .catch(error => {
+      res.status(500).json({ error: 'Internal server error at GET USERS: request.findUsers' })
+    })
+})
+
 // GET SPECIFIED REQUEST
 router.get('/requests/:id', [validateRequestID], (req, res) => {
   requestDB.findById(req.params.id)
