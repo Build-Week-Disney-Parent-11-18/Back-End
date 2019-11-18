@@ -140,3 +140,24 @@ SQLite erases ALL data every 24 hours. Using PostgreSQL allows for truly persist
 | ------ | -------- | -------- | ----------- |
 | GET | `find()` | `/api/tasks/` | get all `tasks` in db |
 | GET | `find(id)` | `/api/tasks/:id` | get `task` specified by id |
+
+ _REQUESTMODEL_
+  - POST
+  - UPDATE
+    - FOUND MATCH (BOOLEAN)
+  - DELETE
+  
+
+ _COMMENTMODEL_
+  - POST
+  - UPDATE
+  - DELETE
+
+### LEFT OFF
+- ✅ request and comments
+  - ✅ models and routers
+- deployment to heroku using pg
+  - reminder: there's an ah and tk video for this
+- note endpoints
+- clean code
+- complete notes and readme
