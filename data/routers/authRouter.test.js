@@ -28,7 +28,7 @@ describe('authRouter', () => {
       return request(server)
         .post('/api/auth/register')
         .send({
-          username: 'username',
+          username: 'usernameRouterTest',
           password: ''
         })
         .then(response => {
@@ -41,7 +41,7 @@ describe('authRouter', () => {
       return request(server)
         .post('/api/auth/register')
         .send({
-          username: 'username',
+          username: 'usernameRouterTest',
           password: 'password',
           last_name: ''
         })
@@ -55,7 +55,7 @@ describe('authRouter', () => {
       return request(server)
         .post('/api/auth/register')
         .send({
-          username: 'username',
+          username: 'usernameRouterTest',
           password: 'password',
           last_name: 'last_name',
           first_name: ''
@@ -70,7 +70,7 @@ describe('authRouter', () => {
       return request(server)
         .post('/api/auth/register')
         .send({
-          username: 'username',
+          username: 'usernameRouterTest',
           password: 'password',
           last_name: 'last_name',
           first_name: 'first_name',
@@ -86,7 +86,7 @@ describe('authRouter', () => {
       return request(server)
         .post('/api/auth/register')
         .send({
-          username: 'username',
+          username: 'usernameRouterTest',
           password: 'password',
           last_name: 'last_name',
           first_name: 'first_name',
@@ -120,7 +120,7 @@ describe('authRouter', () => {
       return request(server)
         .post('/api/auth/register')
         .send({
-          username: 'username',
+          username: 'usernameRouterTest',
           password: 'password',
           last_name: 'last_name',
           first_name: 'first_name',
@@ -131,63 +131,62 @@ describe('authRouter', () => {
           expect(response.type).toMatch(/json/i)
         })
     })
-  })
-  
 
-//   describe('POST /login', () => {
 
-//     test('should receive 400: missing username/should receive missing username error message', () => {
-//       return request(server)
-//         .post('/api/auth/login')
-//         .send({
-//           username: '',
-//           password: 'password'
-//         })
-//         .then(response => {
-//           expect(response.status).toEqual(400)
-//           expect(response.body).toStrictEqual({ error: 'Please provide a username.' })
-//         })
-//     })
 
-//     test('should receive 400: missing password/should receive missing password error message', () => {
-//       return request(server)
-//         .post('/api/auth/login')
-//         .send({
-//           username: 'username',
-//           password: ''
-//         })
-//         .then(response => {
-//           expect(response.status).toEqual(400)
-//           expect(response.body).toStrictEqual({ error: 'Please provide a password.' })
-//         })
-//     })
+  describe('POST /login', () => {
+    test('should receive 400: missing username/should receive missing username error message', () => {
+      return request(server)
+        .post('/api/auth/login')
+        .send({
+          username: '',
+          password: 'password'
+        })
+        .then(response => {
+          expect(response.status).toEqual(400)
+          expect(response.body).toStrictEqual({ error: 'Please provide a username.' })
+        })
+    })
 
-//     test('should receive 401: wrong password/should receive invalid credentials error message', () => {
-//       return request(server)
-//         .post('/api/auth/login')
-//         .send({
-//           username: 'Bill',
-//           password: 'wrongpassword'
-//         })
-//         .then(response => {
-//           expect(response.status).toEqual(401)
-//           expect(response.body).toStrictEqual({ error: 'Invalid credentials' })
-//         })
-//     })
+    test('should receive 400: missing password/should receive missing password error message', () => {
+      return request(server)
+        .post('/api/auth/login')
+        .send({
+          username: 'usernameRouterTest',
+          password: ''
+        })
+        .then(response => {
+          expect(response.status).toEqual(400)
+          expect(response.body).toStrictEqual({ error: 'Please provide a password.' })
+        })
+    })
 
-//     test.todo('should receive 201: login success')
-//     test.todo('should receive JSON formatted response')
-//     test('should receive 500/should receive internal server error message', () => {
-//       return request(server)
-//         .post('/api/auth/login')
-//         .send({
-//           username: 'Bill',
-//           password: 'Bill'
-//         })
-//         .then(response => {
-//           expect(response.status).toEqual(201)
-//           expect(response.type).toMatch(/json/i)
-//         })
-//     })
-//   })
-// })
+    test('should receive 401: wrong password/should receive invalid credentials error message', () => {
+      return request(server)
+        .post('/api/auth/login')
+        .send({
+          username: 'usernameRouterTest',
+          password: 'wrongpassword'
+        })
+        .then(response => {
+          expect(response.status).toEqual(401)
+          expect(response.body).toStrictEqual({ error: 'Invalid credentials' })
+        })
+    })
+
+    test.todo('should receive 201: login success')
+    test.todo('should receive JSON formatted response')
+    test('should receive 500/should receive internal server error message', () => {
+      return request(server)
+        .post('/api/auth/login')
+        .send({
+          username: 'usernameRouterTest',
+          password: 'password'
+        })
+        .then(response => {
+          expect(response.status).toEqual(201)
+          expect(response.type).toMatch(/json/i)
+        })
+    })
+  }) 
+})
