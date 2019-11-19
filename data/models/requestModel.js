@@ -11,47 +11,48 @@ module.exports = {
 }
 
 // GET ALL REQUESTS FOR SEARCH
-function find() { // ✅TESTED
+function find() { // ✅TESTED 
   return db('requests');
 }
 
-function findUsers() {
+// GET ALL USERS
+function findUsers() { // ✅TESTED 
   return db('users');
 }
 
 // GET SPECIFIED REQUEST BY REQUEST ID
-function findById(id) { // ✅TESTED
+function findById(id) { // ✅TESTED 
   return db('requests')
-    .where({ 'requests.id':id })
+    .where({ 'requests.request_id':id })
     .first();
 }
 
 // GET SPECIFIED USER BY USER ID
-function findUserById(id) {
+function findUserById(id) { // ✅TESTED 
   return db('users')
-    .where({ 'users.id':id })
+    .where({ 'users.user_id':id })
     .first();
 }
 
 // ADD NEW REQUEST
-function add(info) { // ✅TESTED
+function add(info) { // ✅TESTED 
   return db('requests')
-    .insert(info, 'id')
+    .insert(info, 'request_id')
     .then(id =>{
       return id[0]
     })
 }
 
 // UPDATE REQUEST
-function update(id, info) {
+function update(id, info) { // ✅TESTED 
   return db('requests')
     .update(info)
-    .where({ 'requests.id':id })
+    .where({ 'requests.request_id':id })
 }
 
 // DELETE REQUEST
-function remove(id) {
+function remove(id) { // ✅TESTED 
   return db('requests')
     .del()
-    .where({ 'requests.id':id })
+    .where({ 'requests.request_id':id })
 }

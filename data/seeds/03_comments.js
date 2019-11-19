@@ -1,4 +1,4 @@
-const comments = [
+exports.const = comments = [
   {
     user_id: 1,
     request_id: 1,

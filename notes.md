@@ -164,3 +164,36 @@ SQLite erases ALL data every 24 hours. Using PostgreSQL allows for truly persist
 
 ## Heroku Deployment
 `npx heroku run knex migrate:latest -a disneyparentdb`
+
+
+ENDPOINTS - 
+BASE URL: `https://disneyparentdb.herokuapp.com`
+
+`AUTHORIZATION`
+Register (POST): `/api/auth/register`
+Login (POST): `/api/auth/login`
+
+`USERS`
+Get all users (GET): `/api/users`
+
+`REQUESTS`
+Get all requests (GET): `/api/requests`
+Get specific request by request id (GET): `/api/requests/:id`
+Post new request by user id (POST): `/api/users/:id/requests`
+Update request by request id (PUT): `/api/requests/:id`
+Delete request by request id (DELETE): `/api/requests/:id`
+
+`COMMENTS`
+Get all comments (GET): `/api/comments`
+Get all comments made by user by user id (GET): `/api/users/:id/comments`
+Get all comments on specific request by request id (GET): `/api/requests/:id/comments`
+Get specific comment by comment id (GET): `/api/comments/:id`
+Post new comment (POST): `/api/users/:userid/requests/:requestid/comments`
+  - This one is subject to change. It currently will take the user that is POSTING the comment. Input would be appreciated.
+Update a comment by comment id (PUT): `/api/comments/:id`
+Delete a comment (DELETE): `/api/comments/:id`
+
+DATA MODEL - 
+`User`
+{"id":1,"username":"LCoffelt","last_name":"Coffelt","first_name":"Lorraine","password":"$2y$10$zJK0mcAuGXVRQJupICZtm.4iFdbycMVHehNbby6sJ/t8mKtW6koYK","role":"volunteer","created_at":"2019-11-18T21:23:42.168Z","updated_at":"2019-11-18T21:23:42.168Z"}
+

@@ -2,25 +2,23 @@
 exports.up = function(knex) {
   return knex.schema.createTable('comments', table => {
     table
-      .increments();
+      .increments('comment_id');
 
     table
       .integer('user_id')
       .unsigned()
-      .references('id')
+      .references('user_id')
       .inTable('users')
       .onUpdate('CASCADE')
       .onDelete('CASCADE')
-      // .dropForeign('id')
 
     table
       .integer('request_id')
       .unsigned()
-      .references('id')
+      .references('request_id')
       .inTable('requests')
       .onUpdate('CASCADE')
       .onDelete('CASCADE')
-      // .dropForeign('id')
 
     table
       .varchar('comment', 255).notNullable();

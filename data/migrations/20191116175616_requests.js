@@ -4,12 +4,12 @@ exports.up = function(knex) {
   
   .createTable('requests', table => {
     table
-      .increments();
+      .increments('request_id');
 
     table
       .integer('user_id')
       .unsigned()
-      .references('id')
+      .references('user_id')
       .inTable('users')
       .onUpdate('CASCADE')
       .onDelete('CASCADE')
