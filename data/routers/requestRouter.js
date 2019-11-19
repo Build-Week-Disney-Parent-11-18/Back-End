@@ -9,9 +9,9 @@ const validateRequestID = (req, res, next) => {
   requestDB.findById(id)
     .then(findRequest => {
       if(!findRequest){
-        res.status(404).json({ error: `There is no request in the database with the id ${id}` })
+        res.status(404).json({ error: `There is no request in the database with the id ${id}` }) // ✅TESTED 
       }else{
-        next()
+        next() // ✅TESTED 
       }
     })
 }
@@ -21,7 +21,7 @@ const validateRequestID = (req, res, next) => {
 router.get('/requests', (req, res) => {
   requestDB.find()
     .then(requests => {
-      res.status(200).json(requests)
+      res.status(200).json(requests) // ✅TESTED 
     })
     .catch(error => {
       res.status(500).json({ error: 'Internal server error at GET REQUESTS: request.find' })
@@ -32,7 +32,7 @@ router.get('/requests', (req, res) => {
 router.get('/users', (req, res) => {
   requestDB.findUsers()
     .then(users => {
-      res.status(200).json(users)
+      res.status(200).json(users) // ✅TESTED 
     })
     .catch(error => {
       res.status(500).json({ error: 'Internal server error at GET USERS: request.findUsers' })
@@ -43,7 +43,7 @@ router.get('/users', (req, res) => {
 router.get('/requests/:id', [validateRequestID], (req, res) => {
   requestDB.findById(req.params.id)
     .then(request => {
-      res.status(200).json(request)
+      res.status(200).json(request) // ✅TESTED 
     })
     .catch(error => {
       res.status(500).json({ error: 'Internal server error at GET SPECIFIED REQUEST: request.findById' })
@@ -56,13 +56,13 @@ router.post('/users/:id/requests', (req, res) => {
   const info = req.body;
   info.user_id = id;
   if(!info.meeting_place){
-    res.status(400).json({ error: 'Please add a meeting place' })
+    res.status(400).json({ error: 'Please add a meeting place' }) // ✅TESTED
   }else if(!info.meeting_time){
-    res.status(400).json({ error: 'Please add a meeting time' })
+    res.status(400).json({ error: 'Please add a meeting time' }) // ✅TESTED
   }else if(!info.number_of_kids){
-    res.status(400).json({ error: 'Please add the number of kids' })
+    res.status(400).json({ error: 'Please add the number of kids' }) // ✅TESTED
   }else if(!info.description){
-    res.status(400).json({ error: 'Please add a description' })
+    res.status(400).json({ error: 'Please add a description' }) // ✅TESTED
   }else{
     // requestDB.findUserById(id)
     //   .then(user => {
@@ -73,14 +73,14 @@ router.post('/users/:id/requests', (req, res) => {
             .then(request => {
               requestDB.findById(request)
                 .then(newRequest => {
-                  res.status(200).json(newRequest)
+                  res.status(201).json(newRequest) // ✅TESTED
                 })
                 .catch(error => {
                   res.status(500).json({ error: 'Internal server error at POST REQUEST: request.add.findById' })
                 })
             })
             .catch(error => {
-              res.status(500).json({ error: 'Internal server error at POST REQUEST: request.add' })
+              res.status(500).json({ error: 'Internal server error at POST REQUEST: request.add' }) // ✅TESTED
             })
         // }
       // })
@@ -90,25 +90,29 @@ router.post('/users/:id/requests', (req, res) => {
 // UPDATE REQUEST
 router.put('/requests/:id', [validateRequestID], (req, res) => {
   const id = req.params.id;
-  requestDB.findById(id)
-    .then(request => {
-      requestDB.update(id, req.body)
-        .then(updated => {
-          requestDB.findById(id)
-          .then(updatedRequest => {
-            res.status(201).json(updatedRequest)
+  if(!req.body){
+    res.status(400).json({ error: 'Please provide at least one value to update.' })
+  }else{
+    requestDB.findById(id)
+      .then(request => {
+        requestDB.update(id, req.body)
+          .then(updated => {
+            requestDB.findById(id)
+            .then(updatedRequest => {
+              res.status(201).json(updatedRequest)
+            })
+            .catch(error => {
+              res.status(500).json({ error: 'Internal server error at UPDATE REQUEST: request.findById.update.findById' })
+            })
           })
           .catch(error => {
-            res.status(500).json({ error: 'Internal server error at UPDATE REQUEST: request.findById.update.findById' })
+            res.status(500).json({ error: 'Internal server error at UPDATE REQUEST: request.findById.update' })
           })
-        })
-        .catch(error => {
-          res.status(500).json({ error: 'Internal server error at UPDATE REQUEST: request.findById.update' })
-        })
-    })
-    .catch(error => {
-      res.status(500).json({ error: 'Internal server error at UPDATE REQUEST: request.findById' })
-    })
+      })
+      .catch(error => {
+        res.status(500).json({ error: 'Internal server error at UPDATE REQUEST: request.findById' })
+      })
+  }
 })
 
 // DELETE REQUEST
