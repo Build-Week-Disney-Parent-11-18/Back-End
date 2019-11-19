@@ -1,38 +1,45 @@
 exports.const = users = [
   {
-    username: 'LCoffelt', // 1
-    last_name:  'Coffelt',
-    first_name: 'Lorraine',
-    password: '$2y$10$zJK0mcAuGXVRQJupICZtm.4iFdbycMVHehNbby6sJ/t8mKtW6koYK', // Nu8aixag8V
-    role: 'volunteer'
+    username: "LCoffelt", // 1
+    last_name:  "Coffelt",
+    first_name: "Lorraine",
+    password: "$2b$10$zhdAOwev5Jmu0jpiGXc.Uu5wdUs6IICl3vspkaoe5rrNQIyi36n2y", // Nu8aixag8V
+    role: "volunteer"
   },
   {
-    username: 'JLopez', // 2
-    last_name:  'Lopez',
-    first_name: 'Jean',
-    password: '$2y$10$8yycDwTRlI2XthLP0yRGaOWL4PCQZN4UETjecXCfLZhVSp4C1n8tK', // iTh9Ooci3
-    role: 'volunteer'
+    username: "JLopez", // 2
+    last_name:  "Lopez",
+    first_name: "Jean",
+    password: "$2b$10$PFdHfI1Ob9AxeipLi/WC6ecgnYnMDGC2UTYocq/N7vCkqV0s/fhAe", // iTh9Ooci3
+    role: "volunteer"
   },
   {
-    username: 'AReinhardt', // 3
-    last_name:  'Reinhardt',
-    first_name: 'Amie',
-    password: '$2y$10$WmBhlCPVVcfLyfyLPsvv1Osuwxjjhu97T7f9B9G4pWEAsnBmoGvGu', // Daisei9ugoo
-    role: 'parent'
+    username: "lambda", // 3
+    last_name: "Lambda",
+    first_name: "Lambda",
+    password: "$2b$10$OsR7Ui2ccJGldqdpOyF1BOCdqdwA6HEZWSRbKM2ojfATUe43DRPkq", // L4mbd4
+    role: "volunteer"
   },
   {
-    username: 'RMartin', // 4
-    last_name:  'Martin',
-    first_name: 'Roy',
-    password: '$2y$10$VMSGKGD1j3gsyS6QB2YTc./IyseYN3QfC8fld.OfbUDEDLSAwlbO2', // Aen4xaeyo6m
-    role: 'parent'
+    username: "AReinhardt", // 4
+    last_name:  "Reinhardt",
+    first_name: "Amie",
+    password: "$2b$10$.lVS3YIWkrotmrOklD1fcOy0HcX0q.67kHmtLhgi0BeDsuaV5HbJq", // Daisei9ugoo
+    role: "parent"
   },
   {
-    username: 'HWaller', // 5
-    last_name:  'Waller',
-    first_name: 'Henry',
-    password: '$2y$10$TvHtgca1UmNRXl88duPOkOj189xHmYCAgeWEce8K7KdLCfhF1hsDu', // oL4shish
-    role: 'parent'
+    username: "RMartin", // 5
+    last_name:  "Martin",
+    first_name: "Roy",
+    password: "$2b$10$5RGHC1tSC2FWAS0Q5w0LIuGTvA5gW1VqqTELyLVeUtWk6Qn0eoIA2", // Aen4xaeyo6m
+    role: "parent"
+  },
+  {
+    username: "HWaller", // 6
+    last_name:  "Waller",
+    first_name: "Henry",
+    password: "$2b$10$HYoDI004wrzTscmtcy2L3u.rAGobyw1oBReaaQCO/I9otoYCI/z7e", // oL4shish
+    role: "parent"
   },
 ]
 
@@ -45,3 +52,38 @@ exports.seed = function(knex) {
     });
 };
 
+// {
+//   "username": "LCoffelt",
+//   "last_name":  "Coffelt",
+//   "first_name": "Lorraine",
+//   "password": "Nu8aixag8V",
+//   "role": "volunteer"
+// }
+// {
+//   "username": "JLopez",
+//   "last_name":  "Lopez",
+//   "first_name": "Jean",
+//   "password": "iTh9Ooci3",
+//   "role": "volunteer"
+// }
+// {
+//   "username": "AReinhardt",
+//   "last_name":  "Reinhardt",
+//   "first_name": "Amie",
+//   "password": "Daisei9ugoo",
+//   "role": "parent"
+// }
+// {
+//   "username": "RMartin",
+//   "last_name":  "Martin",
+//   "first_name": "Roy",
+//   "password": "Aen4xaeyo6m",
+//   "role": "parent"
+// }
+// {
+//   "username": "HWaller",
+//   "last_name":  "Waller",
+//   "first_name": "Henry",
+//   "password": "oL4shish",
+//   "role": "parent"
+// }

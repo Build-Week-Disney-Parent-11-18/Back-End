@@ -32,7 +32,7 @@ function findByRequestId(id) {
 // GET SPECIFIED COMMENT BY COMMENT ID
 function findByCommentId(id) {
   return db('comments')
-    .where({ 'comments.id':id })
+    .where({ 'comments.comment_id':id })
     .first();
 }
 
@@ -49,12 +49,12 @@ function add(info) {
 function update(id, info) {
   return db('comments')
     .update(info)
-    .where({ 'comments.id':id })
+    .where({ 'comments.comment_id':id })
 }
 
 // DELETE A COMMENT
 function remove(id) {
   return db('comments')
     .del()
-    .where({ 'comments.id':id })
+    .where({ 'comments.comment_id':id })
 }

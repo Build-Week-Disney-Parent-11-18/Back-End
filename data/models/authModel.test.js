@@ -7,8 +7,7 @@ describe('authorization', () => {
     test('find user by username and receive user object', async () => {
       const username = 'RMartin';
       const user = await findBy(username)
-      // console.log(user)
-      expect(user.id).toBe(4)
+      expect(user.user_id).toBe(5)
       expect(user.username).toBe('RMartin')
       expect(user.last_name).toBe('Martin')
       expect(user.first_name).toBe('Roy')
@@ -27,7 +26,7 @@ describe('authorization', () => {
         role: 'role'
       })
       const user = await db('users');
-      expect(user).toHaveLength(7);
+      expect(user).toHaveLength(8);
     })
   })
 });

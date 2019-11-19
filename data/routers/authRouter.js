@@ -40,7 +40,7 @@ router.post('/register', [validateCredentials], (req, res) => {
         }else{
           authDB.add(user)
           .then(store => {
-            const token = getJwtToken(user.id, user.role);
+            const token = getJwtToken(user.user_id, user.role);
             res.status(201).json({ token }); 
           })
           .catch(error => {
@@ -59,7 +59,7 @@ router.post('/login', [validateCredentials], (req, res) => {
   authDB.findBy(user.username)
     .then(findUser => {
       if(findUser && bcrypt.compareSync(user.password, findUser.password)){
-        const token = getJwtToken(findUser.id, findUser.role);
+        const token = getJwtToken(findUser.user_id, findUser.role);
 
         res.status(201).json({ token }); // ✅TESTED  
       }else{

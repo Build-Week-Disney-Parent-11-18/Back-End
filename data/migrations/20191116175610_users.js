@@ -4,7 +4,7 @@ exports.up = function(knex) {
   
   .createTable('users', table => {
     table
-      .increments();
+      .increments('user_id');
 
     table
       .varchar('username', 128).notNullable().unique();

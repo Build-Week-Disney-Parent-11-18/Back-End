@@ -13,7 +13,7 @@ describe('requests', () => {
   describe('findUsers', () => {
     test('find all users', async () => {
       const users = await findUsers();
-      expect(users).toHaveLength(7)
+      expect(users).toHaveLength(8)
     })
   })
 
@@ -26,8 +26,8 @@ describe('requests', () => {
 
   describe('findUserById', () => {
     test('find specified user and receive user object', async () => {
-      const user = await findUserById(4)
-      expect(user.id).toBe(4)
+      const user = await findUserById(5)
+      expect(user.user_id).toBe(5)
       expect(user.username).toBe('RMartin')
       expect(user.last_name).toBe('Martin')
       expect(user.first_name).toBe('Roy')

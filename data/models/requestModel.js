@@ -23,21 +23,21 @@ function findUsers() { // ✅TESTED
 // GET SPECIFIED REQUEST BY REQUEST ID
 function findById(id) { // ✅TESTED 
   return db('requests')
-    .where({ 'requests.requests_id':id })
+    .where({ 'requests.request_id':id })
     .first();
 }
 
 // GET SPECIFIED USER BY USER ID
 function findUserById(id) { // ✅TESTED 
   return db('users')
-    .where({ 'users.id':id })
+    .where({ 'users.user_id':id })
     .first();
 }
 
 // ADD NEW REQUEST
 function add(info) { // ✅TESTED 
   return db('requests')
-    .insert(info, 'requests_id')
+    .insert(info, 'request_id')
     .then(id =>{
       return id[0]
     })
@@ -47,12 +47,12 @@ function add(info) { // ✅TESTED
 function update(id, info) { // ✅TESTED 
   return db('requests')
     .update(info)
-    .where({ 'requests.requests_id':id })
+    .where({ 'requests.request_id':id })
 }
 
 // DELETE REQUEST
 function remove(id) { // ✅TESTED 
   return db('requests')
     .del()
-    .where({ 'requests.requests_id':id })
+    .where({ 'requests.request_id':id })
 }

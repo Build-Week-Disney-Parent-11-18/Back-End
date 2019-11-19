@@ -180,12 +180,12 @@ describe('authRouter', () => {
 
     test.todo('should receive 201: login success')
     test.todo('should receive JSON formatted response')
-    test('should receive 500/should receive internal server error message', () => {
+    test('should receive 201/should receive internal server error message', () => {
       return request(server)
         .post('/api/auth/login')
         .send({
-          username: 'usernameRouterTest',
-          password: 'password'
+          username: 'lambda',
+          password: 'L4mbd4'
         })
         .then(response => {
           expect(response.status).toEqual(201)
