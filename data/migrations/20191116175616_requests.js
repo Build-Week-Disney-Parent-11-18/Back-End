@@ -4,7 +4,7 @@ exports.up = function(knex) {
   
   .createTable('requests', table => {
     table
-      .increments();
+      .increments('requests_id');
 
     table
       .integer('user_id')

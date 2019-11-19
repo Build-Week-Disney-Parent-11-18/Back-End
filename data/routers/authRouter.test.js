@@ -1,14 +1,18 @@
 const request = require('supertest');
 const server = require('../../api/server');
 const db = require('../dbConfig');
-const user = require('../seeds/01_users'); // imports seed data as 'user.const'
+const user = require('../seeds/01_users');
+const requests = require('../seeds/02_requests');
+const comments = require('../seeds/03_comments');
 
 describe('authRouter', () => {
   describe('POST /register', () => {
     beforeEach(async () => { // TO TRUNCATE, EITHER TRUNCATE ALL TABLES ASSOCIATED WITH FOREIGN KEY(S) OR ADD CASCADE TO TRUNCATE THEN RESTART IDENTITY TO START THE ID OVER
       // await db.raw('TRUNCATE TABLE users, requests, comments RESTART IDENTITY');
       await db.raw('TRUNCATE TABLE users RESTART IDENTITY CASCADE');
-      await db('users').insert(user.const)
+      await db('users').insert(user.const);
+      await db('requests').insert(requests.const);
+      await db('comments').insert(comments.const);
     });
 
     test('should receive 400: missing username/should receive missing username error message', () => {

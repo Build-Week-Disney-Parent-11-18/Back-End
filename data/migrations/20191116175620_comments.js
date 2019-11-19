@@ -16,7 +16,7 @@ exports.up = function(knex) {
     table
       .integer('request_id')
       .unsigned()
-      .references('id')
+      .references('requests_id')
       .inTable('requests')
       .onUpdate('CASCADE')
       .onDelete('CASCADE')

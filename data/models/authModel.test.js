@@ -1,13 +1,8 @@
 const db = require('../dbConfig');
 const { findBy, add } = require('./authModel');
-const user = require('../seeds/01_users'); // imports seed data as 'user.const'
 
 describe('authorization', () => {
-  beforeEach(async () => { 
-    await db.raw('TRUNCATE TABLE users RESTART IDENTITY CASCADE');
-    await db('users').insert(user.const)
-  });
-  
+
   describe('findBy', () => {
     test('find user by username and receive user object', async () => {
       const username = 'RMartin';
@@ -31,8 +26,8 @@ describe('authorization', () => {
         password: '$2b$10$V/5b9lQqZ21ft9QZs1n14eK0n4TWj9w.Q5guteELc7lEbAV1I.XEa',
         role: 'role'
       })
-      const user = await db('users')
-      expect(user).toHaveLength(6)
+      const user = await db('users');
+      expect(user).toHaveLength(7);
     })
   })
 });

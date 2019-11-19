@@ -1,4 +1,4 @@
-const requests = [
+exports.const = requests = [
   {
     user_id: 3,
     meeting_place: 'Mad Tea Party',
