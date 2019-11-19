@@ -1,130 +1,137 @@
-// const request = require('supertest');
-// const server = require('../../api/server');
-// const db = require('../dbConfig');
-test.todo('not fail')
-// describe('authRouter', () => {
-//   describe('POST /register', () => {
+const request = require('supertest');
+const server = require('../../api/server');
+const db = require('../dbConfig');
+const user = require('../seeds/01_users'); // imports seed data as 'user.const'
 
-//     test('should receive 400: missing username/should receive missing username error message', () => {
-//       return request(server)
-//         .post('/api/auth/register')
-//         .send({
-//           username: '',
-//           password: 'password'
-//         })
-//         .then(response => {
-//           expect(response.status).toEqual(400)
-//           expect(response.body).toStrictEqual({ error: 'Please provide a username.' })
-//         })
-//     })
+describe('authRouter', () => {
+  describe('POST /register', () => {
+    beforeEach(async () => { // TO TRUNCATE, EITHER TRUNCATE ALL TABLES ASSOCIATED WITH FOREIGN KEY(S) OR ADD CASCADE TO TRUNCATE THEN RESTART IDENTITY TO START THE ID OVER
+      // await db.raw('TRUNCATE TABLE users, requests, comments RESTART IDENTITY');
+      await db.raw('TRUNCATE TABLE users RESTART IDENTITY CASCADE');
+      await db('users').insert(user.const)
+    });
 
-//     test('should receive 400: missing password/should receive missing password error message', () => {
-//       return request(server)
-//         .post('/api/auth/register')
-//         .send({
-//           username: 'username',
-//           password: ''
-//         })
-//         .then(response => {
-//           expect(response.status).toEqual(400)
-//           expect(response.body).toStrictEqual({ error: 'Please provide a password.' })
-//         })
-//     })
+    test('should receive 400: missing username/should receive missing username error message', () => {
+      return request(server)
+        .post('/api/auth/register')
+        .send({
+          username: '',
+          password: 'password'
+        })
+        .then(response => {
+          expect(response.status).toEqual(400)
+          expect(response.body).toStrictEqual({ error: 'Please provide a username.' })
+        })
+    })
 
-//     test('should receive 400: missing last name/should receive missing last name error message', () => {
-//       return request(server)
-//         .post('/api/auth/register')
-//         .send({
-//           username: 'username',
-//           password: 'password',
-//           last_name: ''
-//         })
-//         .then(response => {
-//           expect(response.status).toEqual(400)
-//           expect(response.body).toStrictEqual({ error: 'Please provide your last name.' })
-//         })
-//     })
+    test('should receive 400: missing password/should receive missing password error message', () => {
+      return request(server)
+        .post('/api/auth/register')
+        .send({
+          username: 'username',
+          password: ''
+        })
+        .then(response => {
+          expect(response.status).toEqual(400)
+          expect(response.body).toStrictEqual({ error: 'Please provide a password.' })
+        })
+    })
 
-//     test('should receive 400: missing first name/should receive missing first name error message', () => {
-//       return request(server)
-//         .post('/api/auth/register')
-//         .send({
-//           username: 'username',
-//           password: 'password',
-//           last_name: 'last_name',
-//           first_name: ''
-//         })
-//         .then(response => {
-//           expect(response.status).toEqual(400)
-//           expect(response.body).toStrictEqual({ error: 'Please provide your first name.' })
-//         })
-//     })
+    test('should receive 400: missing last name/should receive missing last name error message', () => {
+      return request(server)
+        .post('/api/auth/register')
+        .send({
+          username: 'username',
+          password: 'password',
+          last_name: ''
+        })
+        .then(response => {
+          expect(response.status).toEqual(400)
+          expect(response.body).toStrictEqual({ error: 'Please provide your last name.' })
+        })
+    })
 
-//     test('should receive 400: missing role/should receive missing role error message', () => {
-//       return request(server)
-//         .post('/api/auth/register')
-//         .send({
-//           username: 'username',
-//           password: 'password',
-//           last_name: 'last_name',
-//           first_name: 'first_name',
-//           role: ''
-//         })
-//         .then(response => {
-//           expect(response.status).toEqual(400)
-//           expect(response.body).toStrictEqual({ error: 'Please provide your role.' })
-//         })
-//     })
+    test('should receive 400: missing first name/should receive missing first name error message', () => {
+      return request(server)
+        .post('/api/auth/register')
+        .send({
+          username: 'username',
+          password: 'password',
+          last_name: 'last_name',
+          first_name: ''
+        })
+        .then(response => {
+          expect(response.status).toEqual(400)
+          expect(response.body).toStrictEqual({ error: 'Please provide your first name.' })
+        })
+    })
 
-//     test('should receive 400: trying to add existing username/should receive duplicate username error message', () => {
-//       return request(server)
-//         .post('/api/auth/register')
-//         .send({
-//           username: 'Bill',
-//           password: 'password',
-//           last_name: 'last_name',
-//           first_name: 'first_name',
-//           role: 'role'
-//         })
-//         .then(response => {
-//           expect(response.status).toEqual(400)
-//           expect(response.body).toStrictEqual({ error: 'An account with that username already exists in the database.' })
-//         })
-//     })
+    test('should receive 400: missing role/should receive missing role error message', () => {
+      return request(server)
+        .post('/api/auth/register')
+        .send({
+          username: 'username',
+          password: 'password',
+          last_name: 'last_name',
+          first_name: 'first_name',
+          role: ''
+        })
+        .then(response => {
+          expect(response.status).toEqual(400)
+          expect(response.body).toStrictEqual({ error: 'Please provide your role.' })
+        })
+    })
 
-//     test('should receive 500/should receive internal server error message', () => {
-//       return request(server)
-//         .post('/api/auth/register')
-//         .send({
-//           username: 'username',
-//           password: 'password',
-//           last_name: 'last_name',
-//           first_name: 'first_name',
-//           role: 'role',
-//           extra: 'extra'
-//         })
-//         .then(response => {
-//           expect(response.status).toEqual(500)
-//           expect(response.body).toStrictEqual({ error: 'Internal server error: registration' })
-//         })
-//     })
+    test('should receive 500/should receive internal server error message', () => {
+      return request(server)
+        .post('/api/auth/register')
+        .send({
+          username: 'username',
+          password: 'password',
+          last_name: 'last_name',
+          first_name: 'first_name',
+          role: 'role',
+          extra:'fd'
+        })
+        .then(response => {
+          expect(response.status).toEqual(500)
+          expect(response.body).toStrictEqual({ error: 'Internal server error: registration' })
+        })
+    })
 
-//     test('should receive 201: registration success/should receive JSON formatted response', () => {
-//       return request(server)
-//         .post('/api/auth/register')
-//         .send({
-//           username: 'username',
-//           password: 'password',
-//           last_name: 'last_name',
-//           first_name: 'first_name',
-//           role: 'role'
-//         })
-//         .then(response => {
-//           expect(response.status).toEqual(201)
-//           expect(response.type).toMatch(/json/i)
-//         })
-//     })
-//   })
+    test('should receive 400: trying to add existing username/should receive duplicate username error message', () => {
+      return request(server)
+        .post('/api/auth/register')
+        .send({
+          username: 'RMartin',
+          password: 'password',
+          last_name: 'last_name',
+          first_name: 'first_name',
+          role: 'role'
+        })
+        .then(response => {
+          expect(response.status).toEqual(400)
+          expect(response.body).toStrictEqual({ error: 'An account with that username already exists in the database.' })
+        })
+      })
+    })
+
+    test('should receive 201: registration success/should receive JSON formatted response', () => {
+      return request(server)
+        .post('/api/auth/register')
+        .send({
+          username: 'username',
+          password: 'password',
+          last_name: 'last_name',
+          first_name: 'first_name',
+          role: 'role'
+        })
+        .then(response => {
+          expect(response.status).toEqual(201)
+          expect(response.type).toMatch(/json/i)
+        })
+    })
+  })
   
 
 //   describe('POST /login', () => {
