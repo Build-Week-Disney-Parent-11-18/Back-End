@@ -99,7 +99,15 @@ router.put('/requests/:id', [validateRequestID], (req, res) => {
           .then(updated => {
             requestDB.findById(id)
             .then(updatedRequest => {
-              res.status(201).json(updatedRequest)
+              if(updatedRequest.complete){
+                requestDB.remove(id)
+                  .then(deleted => {
+                    res.status(201).json({DELETED: updatedRequest})
+                  })
+              }else{
+                res.status(201).json(updatedRequest)
+
+              }
             })
             .catch(error => {
               res.status(500).json({ error: 'Internal server error at UPDATE REQUEST: request.findById.update.findById' })

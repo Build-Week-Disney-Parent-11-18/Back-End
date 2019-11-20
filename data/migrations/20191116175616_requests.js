@@ -27,6 +27,9 @@ exports.up = function(knex) {
       .varchar('description').notNullable();
 
     table
+      .boolean('complete').defaultTo(false);
+
+    table
       .timestamps(true, true);
   })
 };
