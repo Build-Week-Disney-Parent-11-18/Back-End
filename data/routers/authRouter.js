@@ -29,39 +29,56 @@ router.post('/register', [validateCredentials], (req, res) => {
     return res.status(400).json({ error: 'Please provide your first name.' }); // ✅TESTED 
   }else if(!user.role){
     return res.status(400).json({ error: 'Please provide your role.' }); // ✅TESTED 
+  }else if(!user.email){
+    return res.status(400).json({ error: 'Please provide an email.' });
   }else{
     const hash = bcrypt.hashSync(user.password, 10);
     user.password = hash;
     
-    authDB.findBy(user.username)
-      .then(findUser => {
-        if(findUser){
-          res.status(400).json({ error: 'An account with that username already exists in the database.' }); // ✅TESTED 
+    authDB.findByUsername(user.username)
+      .then(findUserByUsername => {
+        if(findUserByUsername){
+          res.status(400).json({ error: 'An account with that username already exists in the database.' });
         }else{
-          authDB.add(user)
-          .then(store => {
-            const token = getJwtToken(user.user_id, user.role);
-            res.status(201).json({ token }); 
-          })
-          .catch(error => {
-            res.status(500).json({ error: 'Internal server error: registration' }); // ✅TESTED  
-          })
+          authDB.findByEmail(user.email)
+            .then(findUserByEmail => {
+              if(findUserByEmail){
+                res.status(400).json({ error: 'An account with this email already exists in the database.' }); // ✅TESTED 
+              }else{
+                authDB.add(user)
+                  .then(store => {
+                      authDB.findBy(user.username)
+                        .then(newUser => {
+                          const token = getJwtToken(newUser.user_id, newUser.role);
+                          res.status(201).json({ token, 'newUser_id': newUser.user_id, 'username': newUser.username }); 
+                        })
+                        .catch(error => {
+                          res.status(500).json({ error: 'Internal server error AT REGISTRATION: 4 levels' }); 
+                        })
+                  })
+                  .catch(error => {
+                    res.status(500).json({ error: 'Internal server error AT REGISTRATION: 3 levels' }); 
+                  })
+              }
+            })
+            .catch(error => {
+              res.status(500).json({ error: 'Internal server error AT REGISTRATION: 2 levels' }); 
+            })
         }
       })
-      .catch(error => {
-        res.status(500).json({ error: 'Internal server error: registration' }); // ✅TESTED  
-      })
-  }
-})
+    .catch(error => {
+      res.status(500).json({ error: 'Internal server error AT REGISTRATION: 1 level' }); 
+    })
+}})
 
 // LOG IN USER
 router.post('/login', [validateCredentials], (req, res) => {
-  authDB.findBy(user.username)
+  authDB.findByUsername(user.username)
     .then(findUser => {
       if(findUser && bcrypt.compareSync(user.password, findUser.password)){
         const token = getJwtToken(findUser.user_id, findUser.role);
-
-        res.status(201).json({ token }); // ✅TESTED  
+        console.log(findUser)
+        res.status(201).json({ token, 'loggedInUser_id': findUser.user_id, 'username': findUser.username }); // ✅TESTED  
       }else{
         res.status(401).json({ error: 'Invalid credentials' }); // ✅TESTED  
       }

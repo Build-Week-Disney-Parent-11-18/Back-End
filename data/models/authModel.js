@@ -5,17 +5,24 @@
   const db = require('../dbConfig');
 
   module.exports = {
-    findBy,
+    findByUsername,
+    findByEmail,
     add
   };
 
-  function findBy(username) { // ✅TESTED
+  function findByUsername(username) { // ✅TESTED
     return db('users')
       .where({'users.username': username})
       .first();
   };
+  
+  function findByEmail(email) { // ✅TESTED
+    return db('users')
+      .where({'users.email': email})
+      .first();
+  };
 
   function add(newUser) { // ✅TESTED
-    return db('users')
+    return db('users', 'user_id')
       .insert(newUser)
   }
