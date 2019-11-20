@@ -69,14 +69,14 @@ router.post('/users/:userid/requests/:requestid/comments', (req, res) => {
                 if(userInfo.user_id === newComment.user_id){
                   res.status(200).json({Request: userInfo, Comment: newComment})
                 }else{
-                  res.status(200).json({Request: userInfo, Comment: newComment})
+                  res.status(200).json({Request: userInfo, Comment: newComment}) 
 
-                  msg.to = 'meakidrick@gmail.com', //`${userInfo.email}`
+                  msg.to = `${userInfo.email}`
                   msg.subject = 'New Comment on Disney Parent'
-                  msg.text = `Hey ${userInfo.first_name}, You have a new comment on your request: '${userInfo.description}'! Use this link to see the comment: https://www.youtube.com/. Thanks for using Disney Parent!
+                  msg.text = `Hey ${userInfo.first_name}, You have a new comment on your request: '${userInfo.description}'! Use this link to see the comment: https://disney-parent.davidisaksonii.now.sh/Request/${newComment.request_id}. Thanks for using Disney Parent!
                   From,
                   Disney Parent Team`
-                  msg.html = `Hey ${userInfo.first_name}, <br/> You have a new comment on your request: <strong>'${userInfo.description}'</strong>! <a href='https://www.youtube.com/'>Click here to see the comment.</a> Thanks for using Disney Parent! <br/> Disney Parent Team`
+                  msg.html = `Hey ${userInfo.first_name}, <br/> You have a new comment on your request: <strong>'${userInfo.description}'</strong>! <a href='https://disney-parent.davidisaksonii.now.sh/Request/${newComment.request_id}'>Click here to see the comment.</a> Thanks for using Disney Parent! <br/> Disney Parent Team`
 
                   sgMail.send(sendEmail);
                 }
