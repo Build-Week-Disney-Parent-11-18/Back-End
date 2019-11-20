@@ -13,7 +13,7 @@ describe('requests', () => {
   describe('findUsers', () => {
     test('find all users', async () => {
       const users = await findUsers();
-      expect(users).toHaveLength(8)
+      expect(users).toHaveLength(7)
     })
   })
 

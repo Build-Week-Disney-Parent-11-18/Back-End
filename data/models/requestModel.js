@@ -5,6 +5,7 @@ module.exports = {
   findUsers,
   findById,
   findUserById,
+  emailUser,
   add,
   update,
   remove
@@ -32,6 +33,15 @@ function findUserById(id) { // ✅TESTED
   return db('users')
     .where({ 'users.user_id':id })
     .first();
+}
+
+// GET SPECIFIED USER INFO BY REQUEST ID FOR EMAIL
+function emailUser(id) {
+  return db('requests')
+    .select('users.user_id', 'users.first_name', 'users.last_name', 'users.username', 'users.email', 'description')
+    .join('users', 'users.user_id', '=', 'requests.user_id')
+    .where({ 'requests.request_id':id })
+    .first()
 }
 
 // ADD NEW REQUEST
