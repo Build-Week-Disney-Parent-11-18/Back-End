@@ -16,6 +16,9 @@ exports.up = function(knex) {
       .varchar('first_name', 255).notNullable();
 
     table
+      .varchar('email', 128).notNullable().unique();
+
+    table
       .varchar('password', 255).notNullable();
 
     table

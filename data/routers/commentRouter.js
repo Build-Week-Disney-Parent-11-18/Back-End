@@ -1,7 +1,10 @@
 const express = require('express');
 const commentDB = require('../models/commentModel');
-
+const requestDB = require('../models/requestModel');
+const msg = require('../../api/emails/sendEmail');
 const router = express.Router();
+const sgMail = require('@sendgrid/mail');
+const sendEmail = require('../../api/emails/sendEmail')
 
 // GET ALL COMMENTS
 router.get('/comments', (req, res) => {
@@ -61,7 +64,23 @@ router.post('/users/:userid/requests/:requestid/comments', (req, res) => {
       .then(comment => {
         commentDB.findByCommentId(comment)
           .then(newComment => {
-            res.status(200).json(newComment)
+            requestDB.emailUser(newComment.request_id)
+              .then(userInfo => {
+                if(userInfo.user_id === newComment.user_id){
+                  res.status(200).json({Request: userInfo, Comment: newComment})
+                }else{
+                  res.status(200).json({Request: userInfo, Comment: newComment})
+
+                  msg.to = 'meakidrick@gmail.com', //`${userInfo.email}`
+                  msg.subject = 'New Comment on Disney Parent'
+                  msg.text = `Hey ${userInfo.first_name}, You have a new comment on your request: '${userInfo.description}'! Use this link to see the comment: https://www.youtube.com/. Thanks for using Disney Parent!
+                  From,
+                  Disney Parent Team`
+                  msg.html = `Hey ${userInfo.first_name}, <br/> You have a new comment on your request: <strong>'${userInfo.description}'</strong>! <a href='https://www.youtube.com/'>Click here to see the comment.</a> Thanks for using Disney Parent! <br/> Disney Parent Team`
+
+                  sgMail.send(sendEmail);
+                }
+              })
           })
           .catch(error => {
           res.status(500).json({ error: 'Internal server error at POST COMMENT: comment.add.findByCommentId' })

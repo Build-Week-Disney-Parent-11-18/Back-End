@@ -132,4 +132,12 @@ router.delete('/requests/:id', [validateRequestID], (req, res) => {
     })
 })
 
+// EMAIL COMMENTOR
+router.get('/users/requests/:id', (req, res) => {
+  requestDB.emailUser(req.params.id)
+    .then(username => {
+      res.status(200).json(username)
+    })
+})
+
 module.exports = router;

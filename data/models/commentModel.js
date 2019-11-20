@@ -39,7 +39,7 @@ function findByCommentId(id) {
 // ADD A NEW COMMENT
 function add(info) {
   return db('comments')
-    .insert(info, 'id')
+    .insert(info, 'comment_id')
     .then(id => {
       return id[0]
     })
