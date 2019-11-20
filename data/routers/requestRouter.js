@@ -106,7 +106,6 @@ router.put('/requests/:id', [validateRequestID], (req, res) => {
                   })
               }else{
                 res.status(201).json(updatedRequest)
-
               }
             })
             .catch(error => {
