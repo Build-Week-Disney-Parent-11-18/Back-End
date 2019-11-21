@@ -42,7 +42,7 @@ describe('requestRouter', () => {
           expect(response.body).toStrictEqual({ error: `There is no request in the database with the id ${id}` })
         })
     })
-    /*❗*/ test.todo('should receive 500/should receive internal server error message') // ❓ TEST
+    /*❗*/ test.todo('should receive 500/should receive internal server error message') // ❓ TEST: add a period before/after the id
 
     test('should receive 200/should specific request object', () => {
       const id = 2;

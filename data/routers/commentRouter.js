@@ -4,7 +4,8 @@ const requestDB = require('../models/requestModel');
 const msg = require('../../api/emails/sendEmail');
 const router = express.Router();
 const sgMail = require('@sendgrid/mail');
-const sendEmail = require('../../api/emails/sendEmail')
+const sendEmail = require('../../api/emails/sendEmail');
+const { restricted } = require('../../auth/authMiddleware')
 
 // GET ALL COMMENTS
 router.get('/comments', (req, res) => {
@@ -51,7 +52,7 @@ router.get('/comments/:id', (req, res) => {
 })
 
 // ADD A NEW COMMENT
-router.post('/users/:userid/requests/:requestid/comments', (req, res) => {
+router.post('/users/:userid/requests/:requestid/comments', [restricted], (req, res) => {
   const userid = req.params.userid;
   const requestid = req.params.requestid;
   const info = req.body;
@@ -94,7 +95,7 @@ router.post('/users/:userid/requests/:requestid/comments', (req, res) => {
 
 // UPDATE A COMMENT
 // ADD ERROR FOR RECEIVING ID THAT IS NOT AN INTEGER???
-router.put('/comments/:id', (req, res) => {
+router.put('/comments/:id', [restricted], (req, res) => {
   const id = req.params.id;
   commentDB.findByCommentId(id)
     .then(findComment => {
@@ -122,7 +123,7 @@ router.put('/comments/:id', (req, res) => {
 })
 
 // DELETE A COMMENT
-router.delete('/comments/:id', (req, res) => {
+router.delete('/comments/:id', [restricted], (req, res) => {
   const id = req.params.id;
   commentDB.findByCommentId(id)
     .then(comment => {
@@ -131,7 +132,7 @@ router.delete('/comments/:id', (req, res) => {
       }else{
         commentDB.remove(id)
           .then(deleted => {
-            res.status(201).json(comment)
+            res.status(201).json({DELETED: comment})
           })
           .catch(error => {
             res.status(500).json({ error: 'Internal server error at DELETE COMMENT: comment.findByCommentId.remove' })

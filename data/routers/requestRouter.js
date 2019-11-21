@@ -1,5 +1,6 @@
 const express = require('express');
 const requestDB = require('../models/requestModel');
+const { restricted } = require('../../auth/authMiddleware')
 
 const router = express.Router();
 
@@ -40,7 +41,7 @@ router.get('/users', (req, res) => {
 })
 
 // GET SPECIFIED REQUEST
-router.get('/requests/:id', [validateRequestID], (req, res) => {
+router.get('/requests/:id', [validateRequestID, restricted], (req, res) => {
   requestDB.findById(req.params.id)
     .then(request => {
       res.status(200).json(request) // ✅TESTED 
@@ -51,7 +52,7 @@ router.get('/requests/:id', [validateRequestID], (req, res) => {
 })
 
 // POST REQUEST
-router.post('/users/:id/requests', (req, res) => {
+router.post('/users/:id/requests', [restricted], (req, res) => {
   const id = req.params.id;
   const info = req.body;
   info.user_id = id;
@@ -88,7 +89,7 @@ router.post('/users/:id/requests', (req, res) => {
 })
 
 // UPDATE REQUEST
-router.put('/requests/:id', [validateRequestID], (req, res) => {
+router.put('/requests/:id', [validateRequestID, restricted], (req, res) => {
   const id = req.params.id;
   if(!req.body){
     res.status(400).json({ error: 'Please provide at least one value to update.' })
@@ -123,12 +124,12 @@ router.put('/requests/:id', [validateRequestID], (req, res) => {
 })
 
 // DELETE REQUEST
-router.delete('/requests/:id', [validateRequestID], (req, res) => {
+router.delete('/requests/:id', [validateRequestID, restricted], (req, res) => {
   requestDB.findById(req.params.id)
     .then(request => {
       requestDB.remove(req.params.id)
         .then(deleted => {
-          res.status(201).json(request)
+          res.status(201).json({DELETED: request})
         })
         .catch(error => {
           res.status(500).json({ error: 'Internal server error at DELETE REQUEST: request.add' })
