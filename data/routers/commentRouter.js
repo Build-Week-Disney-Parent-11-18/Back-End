@@ -72,7 +72,7 @@ router.post('/users/:userid/requests/:requestid/comments', [restricted], (req, r
                 }else{
                   res.status(200).json({Request: userInfo, Comment: newComment}) 
 
-                  // msg.to = `${userInfo.email}`
+                  msg.to = `${userInfo.email}`
                   msg.subject = 'New Comment on Disney Parent'
                   msg.text = `Hey ${userInfo.first_name}, You have a new comment on your request: '${userInfo.description}'! Use this link to see the comment: https://disney-parent.davidisaksonii.now.sh/Request/${newComment.request_id}. Thanks for using Disney Parent!
                   From,

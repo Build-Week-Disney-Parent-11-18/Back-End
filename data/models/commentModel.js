@@ -19,14 +19,12 @@ function find() {
 function findByUserId(id) {
   return db('comments')
     .where({ 'comments.user_id':id })
-    .first();
 }
 
 // GET ALL COMMENTS ON SPECIFIED REQUEST BY REQUEST ID
 function findByRequestId(id) {
   return db('comments')
     .where({ 'comments.request_id':id })
-    .first();
 }
 
 // GET SPECIFIED COMMENT BY COMMENT ID
