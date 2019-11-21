@@ -129,7 +129,7 @@ router.delete('/requests/:id', [validateRequestID, restricted], (req, res) => {
     .then(request => {
       requestDB.remove(req.params.id)
         .then(deleted => {
-          res.status(201).json(request)
+          res.status(201).json({DELETED: request})
         })
         .catch(error => {
           res.status(500).json({ error: 'Internal server error at DELETE REQUEST: request.add' })

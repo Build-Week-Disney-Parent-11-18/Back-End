@@ -132,7 +132,7 @@ router.delete('/comments/:id', [restricted], (req, res) => {
       }else{
         commentDB.remove(id)
           .then(deleted => {
-            res.status(201).json(comment)
+            res.status(201).json({DELETED: comment})
           })
           .catch(error => {
             res.status(500).json({ error: 'Internal server error at DELETE COMMENT: comment.findByCommentId.remove' })
