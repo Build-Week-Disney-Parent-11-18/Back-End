@@ -1,12 +1,12 @@
 const db = require('../dbConfig');
-const { findBy, add } = require('./authModel');
-
+const { findByUsername, add } = require('./authModel');
+test.todo('not fail')
 describe('authorization', () => {
 
-  describe('findBy', () => {
+  describe('findByUsername', () => {
     test('find user by username and receive user object', async () => {
       const username = 'RMartin';
-      const user = await findBy(username)
+      const user = await findByUsername(username)
       expect(user.user_id).toBe(5)
       expect(user.username).toBe('RMartin')
       expect(user.last_name).toBe('Martin')
@@ -22,6 +22,7 @@ describe('authorization', () => {
         username: 'usernameModelTest',
         last_name: 'last_name',
         first_name: 'first_name',
+        email: 'emailModel@email.com',
         password: '$2b$10$V/5b9lQqZ21ft9QZs1n14eK0n4TWj9w.Q5guteELc7lEbAV1I.XEa',
         role: 'role'
       })
