@@ -164,6 +164,7 @@ SQLite erases ALL data every 24 hours. Using PostgreSQL allows for truly persist
 
 ## Heroku Deployment
 `npx heroku run knex migrate:latest -a disneyparentdb`
+`npx heroku run knex seed:run --specific=03_comments.js -a disneyparentdb`
 
 
 ENDPOINTS - 

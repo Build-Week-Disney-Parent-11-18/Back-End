@@ -1,6 +1,6 @@
 const db = require('../dbConfig');
 const { find, findUsers, findById, findUserById, add, update, remove } = require('./requestModel');
-
+test.todo('not fail')
 describe('requests', () => {
 
   describe('find', () => {
@@ -62,7 +62,7 @@ describe('requests', () => {
       const requests = await db('requests')
       expect(requests[3].meeting_place).toBe('Arrrgh!')
     })
-  });
+  })
   
 
   describe('remove', () => {
@@ -72,4 +72,4 @@ describe('requests', () => {
       expect(request).toHaveLength(3)
     })
   })
-});
+})

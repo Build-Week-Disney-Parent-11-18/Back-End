@@ -446,3 +446,23 @@ The DELETE to `/api/comments/:id` responds with the following data:
 }
 ```
 -----------------------------------------------------
+## **Twilio Integration**
+
+### _Twilio SendGrid Email API_
+`https://www.twilio.com/`
+
+### _Twilio SendGrid's v3 Node.js Library_
+`https://github.com/sendgrid/sendgrid-nodejs`
+
+The project utilized Twilio SendGrid to send emails to users who have received a new comment on their request.
+
+The POST to `/api/users/:userid/requests/:requestid/comments` will add a comment on a specified request (requestid) by the commenter (userid). The information given back is used to retrieve the original poster's email, first name, and the request body to send them a personal email in the format of:
+```
+let message = {
+  to: 'email',
+  from: 'email',
+  subject: 'email subject',
+  text: `email body (text version)`,
+  html: `email body (html version)`
+}
+```
