@@ -30,7 +30,7 @@ router.post('/register', [validateCredentials], (req, res) => {
   }else if(!user.role){
     return res.status(400).json({ error: 'Please provide your role.' }); // ✅TESTED 
   }else if(!user.email){
-    return res.status(400).json({ error: 'Please provide an email.' });
+    return res.status(400).json({ error: 'Please provide an email.' }); // ✅TESTED
   }else{
     const hash = bcrypt.hashSync(user.password, 10);
     user.password = hash;
@@ -38,7 +38,7 @@ router.post('/register', [validateCredentials], (req, res) => {
     authDB.findByUsername(user.username)
       .then(findUserByUsername => {
         if(findUserByUsername){
-          res.status(400).json({ error: 'An account with that username already exists in the database.' });
+          res.status(400).json({ error: 'An account with that username already exists in the database.' }); // ✅TESTED
         }else{
           authDB.findByEmail(user.email)
             .then(findUserByEmail => {
@@ -47,17 +47,17 @@ router.post('/register', [validateCredentials], (req, res) => {
               }else{
                 authDB.add(user)
                   .then(store => {
-                      authDB.findBy(user.username)
+                      authDB.findByUsername(user.username)
                         .then(newUser => {
                           const token = getJwtToken(newUser.user_id, newUser.role);
-                          res.status(201).json({ token, 'newUser_id': newUser.user_id, 'username': newUser.username }); 
+                          res.status(201).json({ token, 'newUser_id': newUser.user_id, 'username': newUser.username }); // ✅TESTED 
                         })
                         .catch(error => {
-                          res.status(500).json({ error: 'Internal server error AT REGISTRATION: 4 levels' }); 
+                          res.status(500).json({ error: 'Internal server error AT REGISTRATION: 4 levels' }); // ✅TESTED 
                         })
                   })
                   .catch(error => {
-                    res.status(500).json({ error: 'Internal server error AT REGISTRATION: 3 levels' }); 
+                    res.status(500).json({ error: 'Internal server error AT REGISTRATION: 3 levels' }); // ✅TESTED 
                   })
               }
             })
@@ -77,7 +77,6 @@ router.post('/login', [validateCredentials], (req, res) => {
     .then(findUser => {
       if(findUser && bcrypt.compareSync(user.password, findUser.password)){
         const token = getJwtToken(findUser.user_id, findUser.role);
-        console.log(findUser)
         res.status(201).json({ token, 'loggedInUser_id': findUser.user_id, 'username': findUser.username }); // ✅TESTED  
       }else{
         res.status(401).json({ error: 'Invalid credentials' }); // ✅TESTED  

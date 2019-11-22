@@ -4,7 +4,7 @@ const db = require('../dbConfig');
 const user = require('../seeds/01_users');
 const requests = require('../seeds/02_requests');
 const comments = require('../seeds/03_comments');
-
+test.todo('not fail')
 describe('authRouter', () => {
   describe('POST /register', () => {
     beforeEach(async () => { // TO TRUNCATE, EITHER TRUNCATE ALL TABLES ASSOCIATED WITH FOREIGN KEY(S) OR ADD CASCADE TO TRUNCATE THEN RESTART IDENTITY TO START THE ID OVER
@@ -13,14 +13,18 @@ describe('authRouter', () => {
       await db('users').insert(user.const);
       await db('requests').insert(requests.const);
       await db('comments').insert(comments.const);
-    });
+    })
 
     test('should receive 400: missing username/should receive missing username error message', () => {
       return request(server)
         .post('/api/auth/register')
         .send({
           username: '',
-          password: 'password'
+          password: 'password',
+          last_name: 'last_name',
+          first_name: 'first_name',
+          email: 'emailRouter@email.com',
+          role: 'role'
         })
         .then(response => {
           expect(response.status).toEqual(400)
@@ -33,7 +37,11 @@ describe('authRouter', () => {
         .post('/api/auth/register')
         .send({
           username: 'usernameRouterTest',
-          password: ''
+          password: '',
+          last_name: 'last_name',
+          first_name: 'first_name',
+          email: 'emailRouter@email.com',
+          role: 'role'
         })
         .then(response => {
           expect(response.status).toEqual(400)
@@ -47,7 +55,10 @@ describe('authRouter', () => {
         .send({
           username: 'usernameRouterTest',
           password: 'password',
-          last_name: ''
+          last_name: '',
+          first_name: 'first_name',
+          email: 'emailRouter@email.com',
+          role: 'role'
         })
         .then(response => {
           expect(response.status).toEqual(400)
@@ -62,11 +73,30 @@ describe('authRouter', () => {
           username: 'usernameRouterTest',
           password: 'password',
           last_name: 'last_name',
-          first_name: ''
+          first_name: '',
+          email: 'emailRouter@email.com',
+          role: 'role'
         })
         .then(response => {
           expect(response.status).toEqual(400)
           expect(response.body).toStrictEqual({ error: 'Please provide your first name.' })
+        })
+    })
+
+    test('should receive 400: missing email/should receive missing email error message', () => {
+      return request(server)
+        .post('/api/auth/register')
+        .send({
+          username: 'usernameRouterTest',
+          password: 'password',
+          last_name: 'last_name',
+          first_name: 'first_name',
+          email: '',
+          role: 'role'
+        })
+        .then(response => {
+          expect(response.status).toEqual(400)
+          expect(response.body).toStrictEqual({ error: 'Please provide an email.' })
         })
     })
 
@@ -78,6 +108,7 @@ describe('authRouter', () => {
           password: 'password',
           last_name: 'last_name',
           first_name: 'first_name',
+          email: 'emailRouter@email.com',
           role: ''
         })
         .then(response => {
@@ -94,12 +125,13 @@ describe('authRouter', () => {
           password: 'password',
           last_name: 'last_name',
           first_name: 'first_name',
+          email: 'emailRouter@email.com',
           role: 'role',
-          extra:'fd'
+          extra: 'extra'
         })
         .then(response => {
           expect(response.status).toEqual(500)
-          expect(response.body).toStrictEqual({ error: 'Internal server error: registration' })
+          expect(response.body).toStrictEqual({ error: 'Internal server error AT REGISTRATION: 3 levels' })
         })
     })
 
@@ -111,6 +143,7 @@ describe('authRouter', () => {
           password: 'password',
           last_name: 'last_name',
           first_name: 'first_name',
+          email: 'emailRouter@email.com',
           role: 'role'
         })
         .then(response => {
@@ -124,10 +157,11 @@ describe('authRouter', () => {
       return request(server)
         .post('/api/auth/register')
         .send({
-          username: 'usernameRouterTest',
+          username: 'usernameRouterTest2',
           password: 'password',
           last_name: 'last_name',
           first_name: 'first_name',
+          email: 'emailRouter2@email.com',
           role: 'role'
         })
         .then(response => {

@@ -1,8 +1,17 @@
 # Disney Parent
 As a parent with small children, would you like to make your Disney Experience more fun and economical?  Disney Parent puts the tools in your hands to be able to swap childcare and stroller passes with other parents allowing you save money and enjoy the 'big-kid' rides.
 ___
+ ## **Tech Used**
+ -----------------------------------------------------
+ - NodeJS
+ - ExpressJS
+ - PostgreSQL
+ - Jest
+ - Supertest
+ - Twilio SendGrid Email API
+ -----------------------------------------------------
 ## **ENDPOINTS** 
-___
+-----------------------------------------------------
 
 ### _Base URL_
 `https://disneyparentdb.herokuapp.com`
@@ -32,10 +41,10 @@ ___
 | Method        | Request URL                                            | Description                                        |
 | ------------- | :----------------------------------------------------: | -------------------------------------------------- |
 | GET           | `/api/comments`                                        | Get all comments                                   |
-| GET           | `/api/users/:id/comments`                              | Get all comments made by user by user id           |
-| GET           | `/api/requests/:id/comments`                           | Get all comments on specific request by request id |
-| GET           | `/api/comments/:id`                                    | Get specific comment by comment id                 |
-| POST          | `/api/users/:userid/requests/:requestid/comments`      | Post new comment. It currently will take the user that is POSTING the comment. |
+| GET           | `/api/users/:id/comments`                              | Get all comments made by a specified user (user id)           |
+| GET           | `/api/requests/:id/comments`                           | Get all comments on a specific request (request id) |
+| GET           | `/api/comments/:id`                                    | Get a specific comment by comment id                 |
+| POST          | `/api/users/:userid/requests/:requestid/comments`      | Post a new comment. It currently will take the user that is POSTING the comment. |
 | PUT           | `/api/comments/:id`                                    | Update a comment by comment id                     |
 | DELETE        | `/api/comments/:id`                                    | Delete a comment                                   |
 ___
@@ -57,14 +66,14 @@ The POST to `/api/auth/register` expects the following data:
 }
 ```
 
-| Property   | Data Type   | Required   | Unique   | Default   |
-| ---------- | :---------: | :--------: | :------: | :-------: |
-| username   | string      | yes        | yes      | empty     |
-| last_name  | string      | yes        | no       | empty     |
-| first_name | string      | yes        | no       | empty     |
-| email      | string      | yes        | yes      | empty     |
-| password   | string      | yes        | no       | empty     |
-| role       | string      | yes        | no       | empty     |
+| Property   | Data Type   | Required   | Unique   |
+| ---------- | :---------: | :--------: | :------: |
+| username   | string      | yes        | yes      |
+| last_name  | string      | yes        | no       |
+| first_name | string      | yes        | no       |
+| email      | string      | yes        | yes      |
+| password   | string      | yes        | no       |
+| role       | string      | yes        | no       |
 -----------------------------------------------------
 #### Login
 The POST to `/api/auth/login` expects the following data:
@@ -119,17 +128,17 @@ The GET to `/api/users` responds with all of the users in the database:
   },
 ]
 ```
-| Property   | Data Type   | Required       |
-| ---------- | :---------: | :------------: |
-| user_id    | primary key | yes, automatic |
-| username   | string      | yes            |
-| last_name  | string      | yes            |
-| first_name | string      | yes            |
-| email      | string      | yes            |
-| password   | string      | yes            |
-| role       | string      | yes            |
-| created_at | string      | yes, automatic |
-| updated_at | string      | yes, automatic |
+| Property   | Data Type   |
+| ---------- | :---------: |
+| user_id    | primary key |
+| username   | string      |
+| last_name  | string      |
+| first_name | string      |
+| email      | string      |
+| password   | string      |
+| role       | string      |
+| created_at | string      |
+| updated_at | string      |
 -----------------------------------------------------
 ### _Requests_
 The GET to `/api/requests` responds with all of the requests in the database: 
@@ -170,17 +179,17 @@ The GET to `/api/requests` responds with all of the requests in the database:
   }
 ]
 ```
-| Property   | Data Type   | Required       |
-| ---------- | :---------: | :------------: |
-| request_id    | primary key | yes, automatic |
-| user_id   | string      | yes            |
-| last_name  | string      | yes            |
-| first_name | string      | yes            |
-| email      | string      | yes            |
-| password   | string      | yes            |
-| role       | string      | yes            |
-| created_at | string      | yes, automatic |
-| updated_at | string      | yes, automatic |
+| Property       | Data Type                 |
+| -------------- | :-----------------------: |
+| request_id     | primary key               |
+| user_id        | integer                   |
+| meeting_place  | string                    |
+| meeting_time   | string (format= hh:mm:ss) |
+| number_of_kids | string                    |
+| description    | string                    |
+| complete       | string                    |
+| created_at     | string                    |
+| updated_at     | string                    |
 -----------------------------------------------------
 The GET to `/users/requests/:id` responds with the following data about the request user's information:
 ```
@@ -193,11 +202,14 @@ The GET to `/users/requests/:id` responds with the following data about the requ
   "description": "childcare switch anyone?"
 }
 ```
-`REDO`
-| Property   | Data Type   | Required   |
-| ---------- | :---------: | :--------: |
-| username   | string      | yes        |
-| password   | string      | yes        |
+| Property    | Data Type   |
+| ----------- | :---------: |
+| user_id     | primary key |
+| first_name  | string      |
+| last_name   | string      |
+| username    | string      |
+| email       | string      |
+| description | string      |
 -----------------------------------------------------
 The GET to `/api/requests/:id` responds with the following data:
 ```
@@ -213,26 +225,33 @@ The GET to `/api/requests/:id` responds with the following data:
   "updated_at": "2019-11-20T03:52:45.571Z"
 }
 ```
-`REDO`
-| Property   | Data Type   | Required   |
-| ---------- | :---------: | :--------: |
-| username   | string      | yes        |
-| password   | string      | yes        |
+| Property       | Data Type                 |
+| -------------- | :-----------------------: |
+| request_id     | primary key               |
+| user_id        | integer                   |
+| meeting_place  | string                    |
+| meeting_time   | string (format= hh:mm:ss) |
+| number_of_kids | string                    |
+| description    | string                    |
+| complete       | boolean (default = false) |
+| created_at     | string                    |
+| updated_at     | string                    |
 -----------------------------------------------------
 The POST to `/api/users/:id/requests`expects the following data:
 ```
 {
   "meeting_place": "place",
-  "meeting_time": "00:00:00" (format = hh:mm:ss),
+  "meeting_time": "00:00:00",
   "number_of_kids": 3,
   "description": "description
 }
 ```
-`REDO`
-| Property   | Data Type   | Required   |
-| ---------- | :---------: | :--------: |
-| username   | string      | yes        |
-| password   | string      | yes        |
+| Property       | Data Type                 | Required |
+| -------------- | :-----------------------: | :------: |
+| meeting_place  | string                    | yes      |
+| meeting_time   | string (format= hh:mm:ss) | yes      |
+| number_of_kids | string                    | yes      |
+| description    | string                    | yes      |
 -----------------------------------------------------
 The PUT to `/api/requests/:id` expects at least one of the following fields:
 ```
@@ -244,11 +263,13 @@ The PUT to `/api/requests/:id` expects at least one of the following fields:
   "complete": false
 }
 ```
-`REDO`
-| Property   | Data Type   | Required   |
-| ---------- | :---------: | :--------: |
-| username   | string      | yes        |
-| password   | string      | yes        |
+| Property       | Data Type                 |
+| -------------- | :-----------------------: |
+| meeting_place  | string                    |
+| meeting_time   | string (format= hh:mm:ss) |
+| number_of_kids | string                    |
+| description    | string                    |
+| complete       | boolean (default = false) |
 
 Example change:
 ```
@@ -307,11 +328,14 @@ The GET to `/api/comments` responds with all of the comments in the database:
   }
 ]
 ```
-`REDO`
-| Property   | Data Type   | Required   |
-| ---------- | :---------: | :--------: |
-| username   | string      | yes        |
-| password   | string      | yes        |
+| Property   | Data Type   |
+| ---------- | :---------: |
+| comment_id | primary key |
+| user_id    | integer     |
+| request_id | integer     |
+| comment    | string      |
+| created_at | string      |
+| updated_at | string      |
 -----------------------------------------------------
 The GET to `/api/users/:id/comments` responds with the following data from a particular user:
 Example from user 1:
@@ -325,11 +349,14 @@ Example from user 1:
   "updated_at": "2019-11-21T04:09:45.040Z"
 }
 ```
-`REDO`
-| Property   | Data Type   | Required   |
-| ---------- | :---------: | :--------: |
-| username   | string      | yes        |
-| password   | string      | yes        |
+| Property   | Data Type   |
+| ---------- | :---------: |
+| comment_id | primary key |
+| user_id    | integer     |
+| request_id | integer     |
+| comment    | string      |
+| created_at | string      |
+| updated_at | string      |
 -----------------------------------------------------
 The GET to `/api/requests/:id/comments` responds with the following data on a particular request:
 Example from request 3:
@@ -343,13 +370,17 @@ Example from request 3:
   "updated_at": "2019-11-21T04:09:45.040Z"
 }
 ```
-`REDO`
-| Property   | Data Type   | Required   |
-| ---------- | :---------: | :--------: |
-| username   | string      | yes        |
-| password   | string      | yes        |
+| Property   | Data Type   |
+| ---------- | :---------: |
+| comment_id | primary key |
+| user_id    | integer     |
+| request_id | integer     |
+| comment    | string      |
+| created_at | string      |
+| updated_at | string      |
 -----------------------------------------------------
-The GET to `/api/comments/:id` responds with the following data:
+The GET to `/api/comments/:id` responds with the following data about a particular comment:
+Example from comment 1:
 ```
 {
   "comment_id": 1,
@@ -360,11 +391,14 @@ The GET to `/api/comments/:id` responds with the following data:
   "updated_at": "2019-11-21T04:09:45.040Z"
 }
 ```
-`REDO`
-| Property   | Data Type   | Required   |
-| ---------- | :---------: | :--------: |
-| username   | string      | yes        |
-| password   | string      | yes        |
+| Property   | Data Type   |
+| ---------- | :---------: |
+| comment_id | primary key |
+| user_id    | integer     |
+| request_id | integer     |
+| comment    | string      |
+| created_at | string      |
+| updated_at | string      |
 -----------------------------------------------------
 The POST to `/api/users/:userid/requests/:requestid/comments` expects the comment field:
 ```
@@ -372,11 +406,9 @@ The POST to `/api/users/:userid/requests/:requestid/comments` expects the commen
   "comment": "comment"
 }
 ```
-`REDO`
 | Property   | Data Type   | Required   |
 | ---------- | :---------: | :--------: |
-| username   | string      | yes        |
-| password   | string      | yes        |
+| comment    | string      | yes        |
 -----------------------------------------------------
 The PUT to `/api/comments/:id` expects the comment field:
 ```
@@ -384,11 +416,9 @@ The PUT to `/api/comments/:id` expects the comment field:
 	"comment":"See you soon!"
 }
 ```
-`REDO`
 | Property   | Data Type   | Required   |
 | ---------- | :---------: | :--------: |
-| username   | string      | yes        |
-| password   | string      | yes        |
+| comment    | string      | yes        |
 
 It will look like this after changing the comment field:
 ```
@@ -415,17 +445,24 @@ The DELETE to `/api/comments/:id` responds with the following data:
   }
 }
 ```
-`REDO`
-| Property   | Data Type   | Required   |
-| ---------- | :---------: | :--------: |
-| username   | string      | yes        |
-| password   | string      | yes        |
 -----------------------------------------------------
+## **Twilio Integration**
 
- ## **Tech Used**
- - NodeJS
- - ExpressJS
- - PostgreSQL
- - Jest
- - Supertest
- - Twilio SendGrid Email API
+### _Twilio SendGrid Email API_
+`https://www.twilio.com/`
+
+### _Twilio SendGrid's v3 Node.js Library_
+`https://github.com/sendgrid/sendgrid-nodejs`
+
+The project utilized Twilio SendGrid to send emails to users who have received a new comment on their request.
+
+The POST to `/api/users/:userid/requests/:requestid/comments` will add a comment on a specified request (requestid) by the commenter (userid). The information given back is used to retrieve the original poster's email, first name, and the request body to send them a personal email in the format of:
+```
+let message = {
+  to: 'email',
+  from: 'email',
+  subject: 'email subject',
+  text: `email body (text version)`,
+  html: `email body (html version)`
+}
+```
